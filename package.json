@@ -1,0 +1,23 @@
+{
+  "name": "test-range",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "author": "vi.latyshev",
+  "license": "MIT",
+  "scripts": {
+    "watch": "rimraf ./lib *.tsbuildinfo; tsc --watch",
+    "start": "node ./lib/index.js",
+    "build": "rimraf ./lib *.tsbuildinfo; tsc -b ./tsconfig.build.json"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "@typescript-eslint/parser": "^5.43.0",
+    "eslint": "^8.27.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^9.4.1",
+    "typescript": "^4.9.3"
+  }
+}
