@@ -20,7 +20,79 @@
  */
 /* eslint-enable max-len */
 
-const a: number = 1;
-const b: string = '';
+import { Field } from './map/Field';
 
-console.log(a);
+import { Box } from './objects/Box';
+import { Car } from './objects/Car';
+import { Hero } from './objects/Hero';
+import { Pole } from './objects/Pole';
+
+import { randomVector } from './utils/randomPosition';
+
+const field = new Field(200, 200);
+
+const update = () => {
+    const { size } = field;
+
+    // for example
+    field.objects.forEach((obj) => {
+        if (!(obj instanceof Hero)) {
+            return;
+        }
+        const newPos = randomVector(size);
+
+        obj.position.copy(newPos);
+    });
+};
+
+const getInfo = () => {
+    const range = 50;
+
+    let log = 'All objects\n\n';
+
+    field.objects.forEach((ent) => {
+        const { ClassName, position } = ent;
+        log += `${ClassName} | ${position}\n`;
+    });
+    log += '\n-----\n\n';
+
+    const [hero] = field.getEntitiesByClass(Hero);
+
+    const ents = field.inRangeEnt(hero, 50);
+
+    log += `Closest in range: ${range} | count: ${ents.length}\n\n`;
+
+    ents.forEach((ent) => {
+        const { ClassName, position } = ent;
+        log += `${ClassName} | distance ${hero.distance(ent)} | ${position}\n`;
+    });
+
+    log += '-------------------\n';
+    console.log(log);
+};
+
+const init = () => {
+    const { size } = field;
+
+    const hero = new Hero();
+
+    field.add(hero);
+
+    const box = new Box();
+    const car = new Car();
+    const pole = new Pole();
+
+    box.position.copy(randomVector(size));
+    car.position.copy(randomVector(size));
+    pole.position.copy(randomVector(size));
+
+    field.add(box);
+    field.add(car);
+    field.add(pole);
+
+    getInfo();
+};
+
+init();
+setInterval(getInfo, 2000); // fake render
+setInterval(update, 700); // fake update
